@@ -9,6 +9,8 @@
 import UIKit
 
 
+import UIKit
+
 class AppsSearchController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     fileprivate let cellId = "id1234"
@@ -21,11 +23,9 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellId)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: 250)
     }
-
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
@@ -33,16 +33,16 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-
         return cell
     }
     
-
-    init(){
+    init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
-    required init?(coder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
+
