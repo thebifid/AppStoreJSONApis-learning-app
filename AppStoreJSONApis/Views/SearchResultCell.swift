@@ -44,18 +44,21 @@ class SearchResultCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "APP NAME"
+        label.textColor = .black
         return label
     }()
     
     let categoryLabel: UILabel = {
         let label = UILabel()
         label.text = "Photos & Video"
+        label.textColor = .black
         return label
     }()
     
     let ratingsLabel: UILabel = {
         let label = UILabel()
         label.text = "9.26M"
+        label.textColor = .black
         return label
     }()
     

@@ -22,6 +22,22 @@ class AppsPageController: BaseListController, UICollectionViewDelegateFlowLayout
         
         collectionView.register(AppsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
+        fetchData()
+        
+    }
+    
+    
+    fileprivate func fetchData() {
+        print("GET data somehow")
+        Service.shared.fetchGames { (appGroup, err) in
+            
+            if let err = err {
+                print("Failed to fetch games:", err)
+                return
+            }
+            
+            print(appGroup?.feed.results)
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
