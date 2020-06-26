@@ -6,6 +6,7 @@
 //  Copyright © 2020 Vasiliy Matveev. All rights reserved.
 //
 
+
 import UIKit
 
 class AppFullscreenDescriptionCell: UITableViewCell {
@@ -40,9 +41,8 @@ class AppFullscreenDescriptionCell: UITableViewCell {
         descriptionLabel.fillSuperview(padding: .init(top: 0, left: 24, bottom: 0, right: 24))
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
     }
-    
     
 }
