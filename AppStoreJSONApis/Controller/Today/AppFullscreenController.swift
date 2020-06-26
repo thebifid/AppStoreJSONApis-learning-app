@@ -20,7 +20,7 @@ class AppFullscreenController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.contentInsetAdjustmentBehavior = .never
-        let height = UIApplication.shared.statusBarFrame.height
+        let height = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         tableView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
     }
     
@@ -35,6 +35,7 @@ class AppFullscreenController: UITableViewController {
             headerCell.closeButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
             headerCell.todayCell.todayItem = todayItem
             headerCell.todayCell.layer.cornerRadius = 0
+            headerCell.clipsToBounds = true
             return headerCell
         }
         
