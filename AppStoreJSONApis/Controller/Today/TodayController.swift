@@ -149,20 +149,39 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
         return true
     }
     
+    var appFullscreenBeginOffset: CGFloat = 0
     
     @objc fileprivate func handeDrag(gesture: UIPanGestureRecognizer) {
+
+        if gesture.state == .began {
+            appFullscreenBeginOffset = appFullscreenController.tableView.contentOffset.y
+        }
+
+        if appFullscreenController.tableView.contentOffset.y > 0 {
+            return
+        }
+        
         let translationY = gesture.translation(in: appFullscreenController.view).y
-        //print(translationY)
 
-
+        
         if gesture.state == .changed {
-            let scale = 1 - translationY / 1000
-            let transform: CGAffineTransform = .init(scaleX: scale, y: scale)
-            appFullscreenController.view.transform = transform
+            if translationY > 0 {
+                let trueOffset = translationY - appFullscreenBeginOffset
+                
+                var scale = 1 - trueOffset / 1000
+                
+                scale = min(1, scale)
+                scale = max(0.5, scale)
+                
+                let transform: CGAffineTransform = .init(scaleX: scale, y: scale)
+                appFullscreenController.view.transform = transform
+            }
         }
         
         if gesture.state == .ended {
-            handeAppFullscreenDismissal()
+            if translationY > 0 {
+                handeAppFullscreenDismissal()
+            }
         }
         
         
@@ -253,6 +272,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
             }
             
             guard let cell = self.appFullscreenController.tableView.cellForRow(at: [0, 0]) as? AppFullscreenHeaderCell else { return }
+            
+            cell.closeButton.alpha = 0
             
             cell.todayCell.topConstraint.constant = 24
             cell.layoutIfNeeded()
