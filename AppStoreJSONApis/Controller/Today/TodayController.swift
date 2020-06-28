@@ -171,11 +171,13 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
                 var scale = 1 - trueOffset / 1000
                 
                 scale = min(1, scale)
-                scale = max(0.5, scale)
+                scale = max(0.85, scale)
                 
                 let transform: CGAffineTransform = .init(scaleX: scale, y: scale)
                 appFullscreenController.view.transform = transform
+                
             }
+            
         }
         
         if gesture.state == .ended {
@@ -273,8 +275,9 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
             
             guard let cell = self.appFullscreenController.tableView.cellForRow(at: [0, 0]) as? AppFullscreenHeaderCell else { return }
             
-            cell.closeButton.alpha = 0
+//            cell.closeButton.alpha = 0
             
+            self.appFullscreenController.closeButton.alpha = 0
             cell.todayCell.topConstraint.constant = 24
             cell.layoutIfNeeded()
             
