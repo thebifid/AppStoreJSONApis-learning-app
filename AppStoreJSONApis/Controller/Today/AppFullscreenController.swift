@@ -18,6 +18,33 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
             scrollView.isScrollEnabled = false
             scrollView.isScrollEnabled = true
         }
+        
+        
+        if scrollView.contentOffset.y > 80 {
+            if floatingContainerView.transform == .identity {
+                print(scrollView.contentOffset.y)
+                UIView.animate(withDuration: 0.7,
+                               delay: 0,
+                    usingSpringWithDamping: 0.7,
+                    initialSpringVelocity: 0.7,
+                    options: .curveEaseOut,
+                               animations: {
+                                self.floatingContainerView.transform = .init(translationX: 0, y: -90)
+                })
+            }
+        } else {
+            UIView.animate(withDuration: 0.7,
+                           delay: 0,
+                usingSpringWithDamping: 0.7,
+                initialSpringVelocity: 0.7,
+                options: .curveEaseOut,
+                           animations: {
+                            self.floatingContainerView.transform = .identity
+            })
+            
+        }
+        
+        
     }
     
     let tableView = UITableView(frame: .zero, style: .plain)
@@ -41,6 +68,52 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
         tableView.contentInsetAdjustmentBehavior = .never
         let height = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         tableView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+        
+        setupFloatingControls()
+    }
+    
+    let floatingContainerView = UIView()
+    
+    fileprivate func setupFloatingControls() {
+        floatingContainerView.clipsToBounds = true
+        floatingContainerView.layer.cornerRadius = 16
+        view.addSubview(floatingContainerView)
+        
+        //let bottomPadding: CGFloat = 38
+        
+        floatingContainerView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 16, bottom: -90, right: 16), size: .init(width: 0, height: 90))
+        
+        let blurVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        floatingContainerView.addSubview(blurVisualEffectView)
+        blurVisualEffectView.fillSuperview()
+        
+        // add our subviews
+        let imageView = UIImageView(cornerRadius: 16)
+        imageView.image = todayItem?.image
+        imageView.constrainHeight(constant: 68)
+        imageView.constrainWidth(constant: 68)
+        
+        let getButton = UIButton(title: "GET")
+        getButton.setTitleColor(.white, for: .normal)
+        getButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        getButton.backgroundColor = .darkGray
+        getButton.layer.cornerRadius = 16
+        getButton.constrainWidth(constant: 80)
+        getButton.constrainHeight(constant: 32)
+        
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            imageView,
+            VerticalStackVIew(arrangedSubviews: [
+                UILabel(text: "Life Hack", font: .boldSystemFont(ofSize: 18)),
+                UILabel(text: "Utilizing your time", font: .systemFont(ofSize: 16)),
+            ], spacing: 8),
+            getButton,
+        ], customSpacing: 16)
+        
+        floatingContainerView.addSubview(stackView)
+        stackView.fillSuperview(padding: .init(top: 0, left: 16, bottom: 0, right: 16))
+        stackView.alignment = .center
     }
     
     let closeButton: UIButton = {
